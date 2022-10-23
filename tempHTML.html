@@ -1,15 +1,4 @@
-const fs = require("fs");
-const inquirer = require("inquirer");
-
-init();
-
-function init() {
-  writeTitle();
-}
-
-function writeTitle() {
-  const htmlTitleContent = `
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -26,9 +15,7 @@ function writeTitle() {
       <div class="container">
         <h1 class="display-4">Profile Page</h1>
       </div>
-    </header> `;
-
-  fs.writeFile("index.html", htmlTitleContent, (err) =>
-    err ? console.log(err) : console.log("Successfully created index.html!")
-  );
-}
+    </header>
+    <!-- copied above -->
+  </body>
+</html>
