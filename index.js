@@ -15,9 +15,9 @@ async function init() {
   fs.appendFileSync("index.html", manager.makeCard(), (err) =>
     err ? console.log(err) : console.log("Successfully append index.html!")
   );
-  let role;
   do {
-    let { role } = await chooseRole();
+    //intentionally hoisting
+    var { role } = await chooseRole();
     switch (role) {
       case "Manager":
         {
@@ -48,7 +48,7 @@ async function init() {
       case "Intern":
         {
           const { name, id, email, school } = await getInternInfo();
-          const intern = new Engineer(name, id, email, school);
+          const intern = new Intern(name, id, email, school);
 
           fs.appendFileSync("index.html", intern.makeCard(), (err) =>
             err
@@ -59,11 +59,11 @@ async function init() {
         break;
 
       default:
-        closeHtml();
+        await closeHtml();
     }
-    console.log(role === "I do not want to add any more staff");
+    console.log(role !== "I do not want to add any more staff");
     console.log(typeof role);
-  } while (role === "I do not want to add any more staff");
+  } while (role !== "I do not want to add any more staff");
 }
 
 //writes the title of the html page when the page is initialized"
@@ -79,6 +79,7 @@ function writeTitle() {
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="./style.css"/>
     <title>Document</title>
   </head>
   <body>
