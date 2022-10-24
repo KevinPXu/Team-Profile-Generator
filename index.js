@@ -61,9 +61,9 @@ async function init() {
       default:
         closeHtml();
     }
-    console.log(role !== "I do not want to add any more staff");
+    console.log(role === "I do not want to add any more staff");
     console.log(typeof role);
-  } while (role !== "I do not want to add any more staff");
+  } while (role === "I do not want to add any more staff");
 }
 
 //writes the title of the html page when the page is initialized"
