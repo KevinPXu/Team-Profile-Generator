@@ -1,12 +1,17 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
-
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
 init();
 
-function init() {
+async function init() {
   writeTitle();
+  let initResponse = await initPrompt();
+  console.log(initResponse);
 }
 
+//writes the title of the html page when the page is initialized"
 function writeTitle() {
   const htmlTitleContent = `
   <!DOCTYPE html>
@@ -31,4 +36,69 @@ function writeTitle() {
   fs.writeFile("index.html", htmlTitleContent, (err) =>
     err ? console.log(err) : console.log("Successfully created index.html!")
   );
+}
+
+function writeEngineerCard(engineerAnswer) {
+  const engineerCardCont = `
+  <div class="card" style="width: 18rem">
+    <div class="card-header"></div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+        </ul>
+    </div>
+  </div>`;
+
+  fs.appendFile("index.html", engineerCardCont, (err) =>
+    err ? console.log(err) : console.log("Successfully append index.html!")
+  );
+}
+
+function writeManagerCard(managerAnswer) {
+  const managerCardCont = `
+    <div class="card" style="width: 18rem">
+      <div class="card-header"></div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item"></li>
+              <li class="list-group-item"></li>
+              <li class="list-group-item"></li>
+          </ul>
+      </div>
+    </div>`;
+
+  fs.appendFile("index.html", managerCardCont, (err) =>
+    err ? console.log(err) : console.log("Successfully appended index.html!")
+  );
+}
+
+function writeInternCard(internAnswer) {
+  const internCardCont = `
+    <div class="card" style="width: 18rem">
+      <div class="card-header"></div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item"></li>
+              <li class="list-group-item"></li>
+              <li class="list-group-item"></li>
+          </ul>
+      </div>
+    </div>`;
+
+  fs.appendFile("index.html", internCardCont, (err) =>
+    err ? console.log(err) : console.log("Successfully appended index.html!")
+  );
+}
+
+async function initPrompt() {
+  const response = await inquirer.prompt({
+    type: "list",
+    message: "Which role would you like to add?",
+    name: "role",
+    choices: [
+      "Manager",
+      "Engineer",
+      "Intern",
+      "I do not want to add any more staff",
+    ],
+  });
 }
