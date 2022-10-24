@@ -7,8 +7,13 @@ init();
 
 async function init() {
   writeTitle();
-  let initResponse = await initPrompt();
-  console.log(initResponse);
+  const managerInfo = await getManagerInfo();
+  const { name, id, email, officeNum } = managerInfo;
+  const manager = new Manager(name, id, email, officeNum);
+
+  fs.appendFileSync("index.html", manager.makeCard(), (err) =>
+    err ? console.log(err) : console.log("Successfully append index.html!")
+  );
 }
 
 //writes the title of the html page when the page is initialized"
@@ -33,63 +38,12 @@ function writeTitle() {
       </div>
     </header> `;
 
-  fs.writeFile("index.html", htmlTitleContent, (err) =>
+  fs.writeFileSync("index.html", htmlTitleContent, (err) =>
     err ? console.log(err) : console.log("Successfully created index.html!")
   );
 }
 
-function writeEngineerCard(engineerAnswer) {
-  const engineerCardCont = `
-  <div class="card" style="width: 18rem">
-    <div class="card-header"></div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-        </ul>
-    </div>
-  </div>`;
-
-  fs.appendFile("index.html", engineerCardCont, (err) =>
-    err ? console.log(err) : console.log("Successfully append index.html!")
-  );
-}
-
-function writeManagerCard(managerAnswer) {
-  const managerCardCont = `
-    <div class="card" style="width: 18rem">
-      <div class="card-header"></div>
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-          </ul>
-      </div>
-    </div>`;
-
-  fs.appendFile("index.html", managerCardCont, (err) =>
-    err ? console.log(err) : console.log("Successfully appended index.html!")
-  );
-}
-
-function writeInternCard(internAnswer) {
-  const internCardCont = `
-    <div class="card" style="width: 18rem">
-      <div class="card-header"></div>
-          <ul class="list-group list-group-flush">
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-          </ul>
-      </div>
-    </div>`;
-
-  fs.appendFile("index.html", internCardCont, (err) =>
-    err ? console.log(err) : console.log("Successfully appended index.html!")
-  );
-}
-
-async function initPrompt() {
+async function chooseRole() {
   const response = await inquirer.prompt({
     type: "list",
     message: "Which role would you like to add?",
@@ -101,4 +55,83 @@ async function initPrompt() {
       "I do not want to add any more staff",
     ],
   });
+  return response;
+}
+
+async function getManagerInfo() {
+  const response = await inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your id?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email?",
+    },
+    {
+      type: "input",
+      name: "officeNum",
+      message: "What is your office number?",
+    },
+  ]);
+  return response;
+}
+
+async function getInternInfo() {
+  const response = await inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your id?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email?",
+    },
+    {
+      type: "input",
+      name: "officeNum",
+      message: "What school did they attend?",
+    },
+  ]);
+  return response;
+}
+
+async function getEngineerInfo() {
+  const response = await inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your id?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email?",
+    },
+    {
+      type: "input",
+      name: "officeNum",
+      message: "What is your github username?",
+    },
+  ]);
+  return response;
 }
