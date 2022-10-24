@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { get } = require("http");
 const inquirer = require("inquirer");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -14,6 +15,55 @@ async function init() {
   fs.appendFileSync("index.html", manager.makeCard(), (err) =>
     err ? console.log(err) : console.log("Successfully append index.html!")
   );
+  let role;
+  do {
+    let { role } = await chooseRole();
+    switch (role) {
+      case "Manager":
+        {
+          const { name, id, email, officeNum } = await getManagerInfo();
+          const manager = new Manager(name, id, email, officeNum);
+
+          fs.appendFileSync("index.html", manager.makeCard(), (err) =>
+            err
+              ? console.log(err)
+              : console.log("Successfully append index.html!")
+          );
+        }
+        break;
+
+      case "Engineer":
+        {
+          const { name, id, email, github } = await getEngineerInfo();
+          const engineer = new Engineer(name, id, email, github);
+
+          fs.appendFileSync("index.html", engineer.makeCard(), (err) =>
+            err
+              ? console.log(err)
+              : console.log("Successfully append index.html!")
+          );
+        }
+        break;
+
+      case "Intern":
+        {
+          const { name, id, email, school } = await getInternInfo();
+          const intern = new Engineer(name, id, email, school);
+
+          fs.appendFileSync("index.html", intern.makeCard(), (err) =>
+            err
+              ? console.log(err)
+              : console.log("Successfully append index.html!")
+          );
+        }
+        break;
+
+      default:
+        closeHtml();
+    }
+    console.log(role !== "I do not want to add any more staff");
+    console.log(typeof role);
+  } while (role !== "I do not want to add any more staff");
 }
 
 //writes the title of the html page when the page is initialized"
@@ -36,7 +86,9 @@ function writeTitle() {
       <div class="container">
         <h1 class="display-4">Profile Page</h1>
       </div>
-    </header> `;
+    </header>
+    <section>
+  `;
 
   fs.writeFileSync("index.html", htmlTitleContent, (err) =>
     err ? console.log(err) : console.log("Successfully created index.html!")
@@ -103,7 +155,7 @@ async function getInternInfo() {
     },
     {
       type: "input",
-      name: "officeNum",
+      name: "school",
       message: "What school did they attend?",
     },
   ]);
@@ -129,9 +181,20 @@ async function getEngineerInfo() {
     },
     {
       type: "input",
-      name: "officeNum",
+      name: "github",
       message: "What is your github username?",
     },
   ]);
   return response;
+}
+
+function closeHtml() {
+  const end = `
+      </section>
+    </body>
+  </html>`;
+
+  fs.appendFileSync("index.html", end, (err) =>
+    err ? console.log(err) : console.log("Successfully append index.html!")
+  );
 }
