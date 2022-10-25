@@ -65,8 +65,6 @@ async function init() {
       default:
         await closeHtml();
     }
-    console.log(role !== "I do not want to add any more staff");
-    console.log(typeof role);
   } while (role !== "I do not want to add any more staff");
 }
 
