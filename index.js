@@ -121,7 +121,7 @@ async function getManagerInfo() {
     {
       type: "input",
       name: "name",
-      message: "What is your name?",
+      message: "What is the manager's name?",
     },
     {
       type: "input",
@@ -147,7 +147,7 @@ async function getInternInfo() {
     {
       type: "input",
       name: "name",
-      message: "What is your name?",
+      message: "What is the intern's name?",
     },
     {
       type: "input",
@@ -173,7 +173,7 @@ async function getEngineerInfo() {
     {
       type: "input",
       name: "name",
-      message: "What is your name?",
+      message: "What is the engineer's name?",
     },
     {
       type: "input",
