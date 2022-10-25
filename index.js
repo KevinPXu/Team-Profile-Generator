@@ -1,11 +1,14 @@
+//imports all required packages and classes
 const fs = require("fs");
-const { get } = require("http");
 const inquirer = require("inquirer");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+
+//initial function call
 init();
 
+// init function that runs on page start to get manager information then inquire about who else to add to team.
 async function init() {
   writeTitle();
   const managerInfo = await getManagerInfo();
@@ -16,8 +19,9 @@ async function init() {
     err ? console.log(err) : console.log("Successfully append index.html!")
   );
   do {
-    //intentionally hoisting
+    //intentionally hoisting role for do/while loop
     var { role } = await chooseRole();
+    //switch statement to instantiate class depending on user input.
     switch (role) {
       case "Manager":
         {
@@ -88,7 +92,7 @@ function writeTitle() {
         <h1 class="display-4">Profile Page</h1>
       </div>
     </header>
-    <section>
+    <section class="d-flex flex-row justify-content-center">
   `;
 
   fs.writeFileSync("index.html", htmlTitleContent, (err) =>
@@ -96,6 +100,7 @@ function writeTitle() {
   );
 }
 
+//asks user to choose role.
 async function chooseRole() {
   const response = await inquirer.prompt({
     type: "list",
@@ -111,6 +116,8 @@ async function chooseRole() {
   return response;
 }
 
+// these functions get the proper information depending on which role they selected
+// ---------------------------------------------------------------------------------------------------
 async function getManagerInfo() {
   const response = await inquirer.prompt([
     {
@@ -188,7 +195,9 @@ async function getEngineerInfo() {
   ]);
   return response;
 }
+//--------------------------------------------------------------------------------------------------------------
 
+// closes HTML document tags
 function closeHtml() {
   const end = `
       </section>
